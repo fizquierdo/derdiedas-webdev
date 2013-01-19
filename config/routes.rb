@@ -2,6 +2,7 @@ Derdiedas::Application.routes.draw do
   get "home/index"
 
   resources :words
+  match 'nouns/:id/check' => 'home#check', :as => :check
 
 
   # The priority is based upon order of creation:

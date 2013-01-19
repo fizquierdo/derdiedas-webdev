@@ -4,15 +4,23 @@
 <div class="hero-unit span6">  
   <div class="row">
     <div class="span6 pagination-centered">
+
       <p>Der? die? das? Nur eins ist richtig!</p>
+      <% if flash[:success] %>
+        <div class="alert alert-success"><%= flash[:success] %></div>
+      <% end %>
+      <% if flash[:error] %>
+        <div class="alert alert-error"><%= flash[:error] %></div>
+      <% end %>
+
       <div class="well">
         <h1> <%=@word.noun%> </h1>
       </div>
     </div>
   </div>
-  <div class="row">
 
-    <%= form_for(@word) do %>
+  <div class="row">
+    <%= form_for(@word, :url => check_url(:id => @word.id)) do %>
       <% # send the clicked one to the home/check action, see match route %>
       <div class="span2">
         <p>
@@ -29,6 +37,7 @@
         <%= submit_tag "Das", name: "chose_das",class: "btn btn-large btn-warning btn-block" %>
         </p>
       </div>
-      <% end %>
+    <% end %>
   </div>
+
 </div>
