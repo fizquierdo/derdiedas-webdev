@@ -1,6 +1,7 @@
 source 'https://rubygems.org'
 
 gem 'rails', '3.2.11'
+gem 'bcrypt-ruby', '3.0.1'
 gem 'bootstrap-sass'
 
 # Bundle edge Rails instead:
@@ -29,13 +30,13 @@ gem 'jquery-rails'
 
 group :test do
   gem 'capybara'
+  gem 'factory_girl_rails'
 end
 group :production do
   gem 'pg'
 end
 
 # To use ActiveModel has_secure_password
-gem 'bcrypt-ruby', '3.0.1'
 
 # To use Jbuilder templates for JSON
 # gem 'jbuilder'

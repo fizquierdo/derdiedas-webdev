@@ -6,12 +6,6 @@
     <div class="span6 pagination-centered">
 
       <p>Der? die? das? Nur eins ist richtig!</p>
-      <% if flash[:success] %>
-        <div class="alert alert-success"><%= flash[:success] %></div>
-      <% end %>
-      <% if flash[:error] %>
-        <div class="alert alert-error"><%= flash[:error] %></div>
-      <% end %>
 
       <div class="well">
         <h1> <%=@word.noun%> </h1>

@@ -1,9 +1,9 @@
 Derdiedas::Application.routes.draw do
-  get "users/new"
 
   get "home/index"
 
   resources :words
+  resources :users
   match 'nouns/:id/check' => 'home#check', :as => :check
 
   match '/signup', :to => 'users#new'
