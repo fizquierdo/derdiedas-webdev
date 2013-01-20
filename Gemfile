@@ -8,6 +8,7 @@ gem 'bootstrap-sass'
 
 group :development do
   gem 'sqlite3'
+  gem 'rspec-rails'
 end
 
 
@@ -25,6 +26,9 @@ end
 
 gem 'jquery-rails'
 
+group :test do
+  gem 'capybara'
+end
 group :production do
   gem 'pg'
 end

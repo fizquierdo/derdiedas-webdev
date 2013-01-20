@@ -1,11 +1,11 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
 
 one:
-  noun: MyString
-  article: MyString
+  noun: Baum
+  article: der
   weight: 1
 
 two:
-  noun: MyString
-  article: MyString
+  noun: Zimmer
+  article: das
   weight: 1
