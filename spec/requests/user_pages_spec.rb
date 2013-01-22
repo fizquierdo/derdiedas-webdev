@@ -4,7 +4,7 @@ describe "User pages" do
   subject {page}
   describe "sign up page" do
     before {visit signup_path}
-    it { assert has_selector?('h1',    text: 'Sign up') }
+    it { should have_selector('h1',    text: 'Sign up') }
   end
 
   describe "profile page" do
@@ -13,7 +13,7 @@ describe "User pages" do
 
     it { should have_selector('h1',    text: user.name) }
     # TODO pass this test
-    #it { should have_selector('title', text: user.name) }
+    it { should have_selector('title', text: user.name) }
   end
   describe "signup" do
 
