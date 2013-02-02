@@ -13,6 +13,7 @@ describe "Authentications" do
 
       it {should have_selector('h1', text: user.name) }
       it {should have_link('Profile', href: user_path(user)) }
+      it {should have_link('Settings', href: edit_user_path(user)) }
       it {should have_link('Sign out', href: signout_path) }
       it {should_not have_link('Sign in', href: signin_path) }
 
@@ -28,7 +29,9 @@ describe "Authentications" do
       it { should have_error_message('Invalid user name or password') }
 
       describe "after visiting another page" do
-        before {click_link "Home"}
+        let(:word) { FactoryGirl.create(:word, article: 'der', noun: 'Baum') }
+        before { visit root_path(word: word)}
+        #before {click_link "Home"}
         it { should_not have_error_message('Invalid user name or password') }
       end
 
