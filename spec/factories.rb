@@ -8,6 +8,6 @@ FactoryGirl.define do
   factory :word do
     article "das"
     noun    "Zimmer"
-    weight  1 
+    weight  "1"
   end
 end

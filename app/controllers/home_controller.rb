@@ -7,7 +7,7 @@ class HomeController < ApplicationController
     if params["chose_#{@word.article}"]
       redirect_to root_url, :flash => { :success=> "Sehr gut!,  #{@word.to_s} war richtig"}
     else
-      redirect_to root_url, :flash => { :error=> "mmmmmm Eigentlich war #{@word.to_s} richtig"}
+      redirect_to root_url, :flash => { :error=> "mmmmmm Eigentlich war #{@word.to_error_s} richtig"}
     end
   end
 end

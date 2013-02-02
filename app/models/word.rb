@@ -20,5 +20,8 @@ class Word < ActiveRecord::Base
   def to_s
     self.article.to_s.capitalize + " " + self.noun.to_s
   end
+  def to_error_s
+    self.article.to_s.downcase + " " + self.noun.to_s
+  end
 
 end
