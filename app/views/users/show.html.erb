@@ -6,6 +6,21 @@
     <%= gravatar_for @user %>
     <%= @user.name %>
   </h1>
+  <p>
+  Hat <%= @user.number_of_guesses %> mal gespielt
+  <% unless @user.success_ratio.empty? %> 
+    (<%= @user.success_ratio %>% richtig)
+  <% end %> 
+  </p>
+
+  
   </section>
+  <ul>
+  <% @user.guesses_by_words.each do | word_guesses| %> 
+    <li>
+    <%= word_guesses[:name] %> : <%= word_guesses[:correct] %>/<%= word_guesses[:total] %> 
+    </li>
+  <% end %> 
+  </ul>
   </aside>
 </div>

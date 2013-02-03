@@ -27,6 +27,27 @@ class User < ActiveRecord::Base
   has_many :guesses, :dependent => :destroy
   has_many :words, :through => :guesses
 
+  # TODO test the computation of the statistics
+  def number_of_guesses
+    self.guesses.size
+  end
+  def number_of_correct_guesses
+    self.guesses.select{|guess| guess.correct?}.size
+  end
+  def success_ratio
+    return "" unless number_of_guesses > 0
+    '%.2f' % ((number_of_correct_guesses.to_f / number_of_guesses.to_f) * 100.0)
+  end
+  def guesses_by_words
+    word_results = []
+    self.guesses.group_by(&:word_id).each do |word_id, word_guesses|
+      word_results << {correct: word_guesses.select{|guess| guess.correct?}.size, 
+                       total: word_guesses.size, 
+                       name: word_guesses.first.word.to_s 
+      }
+    end
+    word_results 
+  end
   private
     def create_remember_token
       self.remember_token = SecureRandom.urlsafe_base64
