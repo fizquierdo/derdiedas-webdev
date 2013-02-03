@@ -11,7 +11,17 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130203012139) do
+ActiveRecord::Schema.define(:version => 20130203141715) do
+
+  create_table "guesses", :force => true do |t|
+    t.string   "answer"
+    t.integer  "word_id"
+    t.integer  "user_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "guesses", ["user_id", "created_at", "word_id"], :name => "index_guesses_on_user_id_and_created_at_and_word_id"
 
   create_table "users", :force => true do |t|
     t.string   "name"

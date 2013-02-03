@@ -17,6 +17,9 @@ class Word < ActiveRecord::Base
   validates :article, :inclusion => { :in => %w(der die das),
     :message => "%{value} is not a valid german article" }
 
+  has_many :guesses
+  has_many :users, :through => :guesses
+
   def to_s
     self.article.to_s.capitalize + " " + self.noun.to_s
   end
