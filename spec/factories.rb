@@ -15,4 +15,12 @@ FactoryGirl.define do
     noun    "Zimmer"
     weight  "1"
   end
+
+  factory :guess do
+    sequence(:answer) {|n| ["das", "der", "die"].shuffle.first }
+    user
+    word
+  end
+
+  
 end

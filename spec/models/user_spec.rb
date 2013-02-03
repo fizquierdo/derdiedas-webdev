@@ -115,4 +115,25 @@ describe User do
     end
     it{should be_admin}
   end
+
+  # Guesses
+  describe "guess associations" do
+    before do 
+      @user.save 
+    end
+    let!(:older_guess) { FactoryGirl.create(:guess, user: @user, created_at: 1.day.ago)}
+    let!(:newer_guess) { FactoryGirl.create(:guess, user: @user, created_at: 1.hour.ago)}
+    it "should have the guesses in the right order " do
+      @user.guesses.should == [newer_guess, older_guess]
+    end
+
+    it "should destroy associated guesses" do
+      guesses = @user.guesses.dup
+      @user.destroy
+      guesses.should_not be_empty
+      guesses.each do |guess| 
+        Guess.find_by_id(guess.id).should be_nil
+      end
+    end
+  end
 end

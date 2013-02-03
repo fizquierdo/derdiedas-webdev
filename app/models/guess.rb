@@ -7,6 +7,8 @@ class Guess < ActiveRecord::Base
   belongs_to :user
   belongs_to :word
 
+  default_scope order: 'guesses.created_at DESC'
+
   def correct?
     answer == self.word.article
   end
