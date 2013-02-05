@@ -127,9 +127,10 @@ class Session
       end
     end
 
-
     updated_used_set_prob = cumulative_noun_prob @history.nouns
     puts "updated cumulative probability of used words: " + "%.3f" % (updated_used_set_prob)
+    difference = updated_used_set_prob - used_set_prob
+    p difference
   end
   def unused_nouns
     @words.map{|w| w.noun} - @history.nouns
