@@ -92,7 +92,7 @@ class Session
     @words.each do |w|
       table << [w.article, w.noun, w.formatted_prob, w.formatted_prob_user, w.attempts, w.corrects]
     end
-    p table
+    p table.sort_rows_by("Prob_word|user")
   end
   def checksum
     sum = cumulative_prob @words
