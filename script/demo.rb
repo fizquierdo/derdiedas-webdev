@@ -57,23 +57,24 @@ class History
   def nouns
     @history.group_by{|p|p[:noun]}.map{|k,v| k}
   end
-  def print
+  def print_by_order
     table = Table(%w[noun guess])
     @history.each do |p|
       table << [p[:noun], p[:guess]]
     end
     p table
   end
-  def print_grouped
-    table = Table(%w[noun guess])
-    @history.group_by{|p| p[:noun]}.each do |k, v|
-      guesses = v.map{|c| c[:guess]}
-      num_true_guess = guesses.select{|g| g == true}.size
-      num_false_guess = guesses.select{|g| g == false}.size
-      raise "sum of guess wrong" unless num_true_guess + num_false_guess == guesses.size
-      table << [k, "#{guesses.size}; correct (#{num_true_guess}), wrong (#{num_false_guess})"]
+  def print_by_result
+    table = Table(%w[noun attempt correct wrong])
+    @history.group_by{|p| p[:noun]}.each do |noun, history_entry|
+      guesses = history_entry.map{|c| c[:guess]}
+      raise "sum of guess wrong" unless guesses.count(true) + guesses.count(false) == guesses.count
+      table << [noun, guesses.count, guesses.count(true), guesses.count(false)]
     end
     p table
+  end
+  def entries
+    @history
   end
 end
 
@@ -106,32 +107,48 @@ class Session
     @history.add(random_word.noun, guess)
   end
   def print_history
-    @history.print
+    @history.print_by_time
   end
-  def print_history_grouped
-    @history.print_grouped
+  def print_history_by_result
+    @history.print_by_result
   end
-  def adjust_word_probabilities
-    puts "cumulative probability of used words: " + "%.3f" % (cumulative_noun_prob @history.nouns)
-    p @history.nouns
-    puts
-    puts "cumulative probability of non-used words: " + "%.3f" % (cumulative_noun_prob unused_nouns)
-    p unused_nouns
+  def adjust_word_probabilities(factor = 2)
+    used_set_prob = cumulative_noun_prob @history.nouns
+    unused_set_prob = cumulative_noun_prob unused_nouns
+    puts "cumulative probability of used words: " + "%.3f" % (used_set_prob)
+    puts "cumulative probability of non-used words: " + "%.3f" % (unused_set_prob)
 
-    #TODO based on the history of success for each word, this should update the Prob_user|word
+    @history.entries.each do |entry|
+      word = find_word entry[:noun]
+      if entry[:guess]
+        word.prob_user /= factor
+       else
+        word.prob_user *= factor
+      end
+    end
+
+
+    updated_used_set_prob = cumulative_noun_prob @history.nouns
+    puts "updated cumulative probability of used words: " + "%.3f" % (updated_used_set_prob)
   end
   def unused_nouns
     @words.map{|w| w.noun} - @history.nouns
   end
   private
+    def find_word(noun)
+      @words.select{|w| w.noun == noun}.first
+    end
     def probs_given_user(words)
       words.map(&:prob_given_user)
     end
-    def cumulative_noun_prob(noun_list)
-      cumulative_prob @words.select{|w| noun_list.include?(w.noun)}
-    end
     def cumulative_prob(words)
       probs_given_user(words).inject(:+).to_f
+    end
+    def words_with_noun_in (noun_list)
+      @words.select{|w| noun_list.include?(w.noun)}
+    end
+    def cumulative_noun_prob(noun_list)
+      cumulative_prob words_with_noun_in(noun_list)
     end
     def random_word
       vose = Vose::AliasMethod.new probs_given_user(@words)
@@ -148,7 +165,7 @@ end
 
 # Iinitialize a random session 
 session = Session.new File.join('../db', 'words.txt')
-session.initialize_probs(20)
+session.initialize_probs(10)
 session.print
 
 # Set up a player
@@ -157,10 +174,11 @@ player = User.new rate
 puts "Player plays with success rate #{rate}"
 
 # Let the player use these session words (assumes single user in session)
-10.times do
+4.times do
   player.play(session)
 end
-session.print_history
-session.print_history_grouped
-session.adjust_word_probabilities
+session.print_history_by_result
+session.adjust_word_probabilities(2.0)
+session.print
+session.checksum
 
