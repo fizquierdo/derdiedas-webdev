@@ -3,6 +3,7 @@
 require 'ostruct'
 require 'ruport'
 require 'vose'
+# TODO precission issues (we get negative probs..and the redistribution is probably not precise)
 
 class User
   attr_accessor :success_rate
@@ -89,14 +90,15 @@ class Session
   end
   def print
     table = Table(%w[part noun Prob_word|user Prob_user|word*freq_word attempts corrects])
-    @words.each do |w|
+    @words.sort_by{|w| w.prob_user}.each do |w|
       table << [w.article, w.noun, w.formatted_prob, w.formatted_prob_user, w.attempts, w.corrects]
     end
-    p table.sort_rows_by("Prob_word|user")
+    #p table.sort_rows_by("Prob_word|user")
+    p table
   end
   def checksum
     sum = cumulative_prob @words
-    raise "checksum : #{sum}" unless (sum - 1).abs < 0.001
+    raise "checksum : #{sum}" unless (sum - 1).abs < 0.01
   end
   def initialize_probs(num_words, training_words)
     @training_size = training_words
@@ -113,7 +115,11 @@ class Session
   end
   def play(guess)
     attempts = 100
-    word = random_word_from_training_set(attempts)
+    begin
+      word = random_word_from_training_set(attempts)
+    rescue 
+      print
+    end
     raise "No word found after #{attempts} attempts!" unless word
     @history.add(word.noun, guess)
     word.attempts += 1
@@ -141,7 +147,7 @@ class Session
       puts word.noun + " had \t" + word.formatted_prob_user if $DEBUG
       if entry[:guess]
         word.prob_user /= factor
-       else
+      else
         word.prob_user *= factor
       end
     end
@@ -150,7 +156,7 @@ class Session
     updated_used_set_prob = cumulative_noun_prob @history.nouns
     incr_unused = 1.0 - unused_set_prob - updated_used_set_prob
     num_unused = unused_nouns.count
-    fraction = incr_unused / num_unused.to_f
+    fraction = incr_unused / num_unused
     if $DEBUG
       puts "updated cumulative probability of used words: " + "%.3f" % (updated_used_set_prob)
       puts "#{num_unused} non-used words has to absorve #{incr_unused}, each #{fraction}" 
@@ -161,6 +167,7 @@ class Session
       word.prob_user += (fraction / word.frequency)
     end
     checksum
+    # Now we must reset the history
     @history.reset
   end
   def unused_nouns
@@ -214,21 +221,30 @@ session = Session.new File.join('../db', 'words.txt')
 session.initialize_probs(num_words, training_set)
 
 # Set up a player
-player = User.new  
+initial_success = 0.30
+maximum_success = 0.90
+player = User.new initial_success 
 puts "Player plays with success rate #{player.success_rate}"
 
 # Let the player use these session words (assumes single user in session)
 session.print
-10.times do
+
+num_sets = 40
+set_games = 5
+# After each set a new training set of words is introduced (mybe the next time he logs in)
+# We assume that after each set the user will have improved a bit (step function)
+improvement = (maximum_success - player.success_rate).to_f / num_sets.to_f
+
+num_sets.times do
   # player improves a bit (he learned from his mistakes)
-  player.success_rate *= 1.01
-  puts "Player plays with success rate #{player.success_rate}"
-  # play 10 times with this training set
-  6.times do
+  player.success_rate += improvement
+  puts "Player plays #{set_games} times with success rate #{player.success_rate}"
+  # play with this training set
+  set_games.times do
     player.play(session)
   end
   #session.print_history_by_result
-  session.adjust_word_probabilities(1.5)
+  session.adjust_word_probabilities(1.3)
   # change the traning set from the num_words
   session.shuffle
 end
