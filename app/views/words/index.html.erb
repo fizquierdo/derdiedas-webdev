@@ -5,6 +5,10 @@
     <th>Noun</th>
     <th>Article</th>
     <th>Weight</th>
+    <% if signed_in? %>
+    <th>Level</th>
+    <th>Prob</th>
+    <% end %>
     <th></th>
     <th></th>
     <th></th>
@@ -15,6 +19,10 @@
     <td><%= word.noun %></td>
     <td><%= word.article %></td>
     <td><%= word.weight %></td>
+    <% if signed_in? %>
+    <td><%= current_user.word_level(word) %></td>
+    <td><%= current_user.word_prob(word) %></td>
+    <% end %>
     <td><%= link_to 'Show', word %></td>
     <td><%= link_to 'Edit', edit_word_path(word) %></td>
     <td><%= link_to 'Destroy', word, method: :delete, data: { confirm: 'Are you sure?' } %></td>

@@ -8,6 +8,7 @@ describe Word do
   subject{@word}
   it {should respond_to(:article)}
   it {should respond_to(:noun)}
+  it {should respond_to(:weight)}
   it {should respond_to(:to_s)}
 
   describe "factory example" do
@@ -19,5 +20,4 @@ describe Word do
     end
   end
   
-
 end

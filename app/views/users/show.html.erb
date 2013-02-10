@@ -12,13 +12,12 @@
     (<%= @user.success_ratio %>% richtig)
   <% end %> 
   </p>
-
   
   </section>
   <ul>
   <% @user.guesses_by_words.each do | word_guesses| %> 
     <li>
-    <%= word_guesses[:name] %> : <%= word_guesses[:correct] %>/<%= word_guesses[:total] %> 
+      <%= word_guesses[:name] %> : <%= word_guesses[:correct] %>/<%= word_guesses[:total] %> 
     </li>
   <% end %> 
   </ul>

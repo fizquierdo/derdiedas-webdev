@@ -13,14 +13,15 @@ def get_random_words(number_of_words)
     number_of_words = words.size if words.size < number_of_words
     words.shuffle.slice(0,number_of_words)
 end
-
-
+def random_weight
+  (1..10).to_a.shuffle.first
+end
 
 
 namespace :db do
   desc "Fill users database with sample data"
   task populate: :environment do
-    number_of_users = 25
+    number_of_users = 5
     number_of_words = 50
     # Users
     admin = User.create!(name: "Fernando",
@@ -43,7 +44,7 @@ namespace :db do
     # Words
     words = get_random_words(number_of_words)
     words.each do |w|
-      Word.create!({article: w[:article], noun: w[:noun], weight: 1})
+      Word.create!({article: w[:article], noun: w[:noun], weight: random_weight})
     end
     puts "#{Word.all.size} random words added to the database"
 

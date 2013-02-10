@@ -27,7 +27,6 @@ class User < ActiveRecord::Base
   has_many :guesses, :dependent => :destroy
   has_many :words, :through => :guesses
 
-  # TODO test the computation of the statistics
   def number_of_guesses
     self.guesses.size
   end
@@ -48,7 +47,26 @@ class User < ActiveRecord::Base
     end
     word_results 
   end
+  def word_level(word)
+    level = 5
+    word_history(word).each do |guess|
+      if guess.correct?
+        level -= 1
+        level = 1 if level < 1
+      else
+        level += 1
+        level = 10 if level > 1
+      end
+    end
+    level 
+  end
+  def word_prob(word)
+    word.weight * word_level(word)
+  end
   private
+    def word_history(word)
+      self.guesses.select{|g| g.word_id == word.id}.sort_by{|g| g.created_at}
+    end
     def create_remember_token
       self.remember_token = SecureRandom.urlsafe_base64
     end
