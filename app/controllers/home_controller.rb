@@ -3,10 +3,7 @@ class HomeController < ApplicationController
     if signed_in?
       sample_size = Word.count / 10
       sample_size = 1 if sample_size < 1
-      words = prio_list.
-              slice(0, sample_size).
-              reject{|w| current_user.word_level(w) == 100}
-
+      words = prio_list.slice(0, sample_size)
     else
       words = Word.all
     end
