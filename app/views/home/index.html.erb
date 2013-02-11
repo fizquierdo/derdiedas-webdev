@@ -12,9 +12,6 @@
 
     <div class="span4 offset2 pagination-centered">
       <div class="well well-large">
-      <p>
-        Meldet dich ein!
-      </p>
       <%= link_to "Sign up!", signup_path, class: "btn btn-large btn-primary" %>
       </div>
     </div>
@@ -41,4 +38,12 @@
     <% end %>
   </div>
 
+
 </div>
+
+    <small>
+    <p> Frequency <%=@word.weight%>  (1 uncommon, 10 most common)</p>
+    <% if signed_in? %>
+      <p> Level <%=current_user.word_level(@word)%> (1 master, 10 no clue)</p>
+    <% end %>
+    </small>

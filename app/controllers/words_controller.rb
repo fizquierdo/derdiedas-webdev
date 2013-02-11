@@ -2,8 +2,7 @@ class WordsController < ApplicationController
   # GET /words
   # GET /words.json
   def index
-    @words = Word.all
-
+    @words = prio_list
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @words }

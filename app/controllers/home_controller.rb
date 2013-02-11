@@ -1,6 +1,16 @@
 class HomeController < ApplicationController
   def index
-    @word = Word.all.shuffle.first
+    if signed_in?
+      sample_size = Word.count / 10
+      sample_size = 1 if sample_size < 1
+      words = prio_list.
+              slice(0, sample_size).
+              reject{|w| current_user.word_level(w) == 100}
+
+    else
+      words = Word.all
+    end
+    @word = words.shuffle.first
   end
   def check
     @word = Word.find(params[:id])
