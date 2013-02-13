@@ -13,6 +13,7 @@ group :development do
   gem 'annotate'
   gem 'sqlite3'
   gem 'rspec-rails'
+  gem 'ruport'
 end
 
 

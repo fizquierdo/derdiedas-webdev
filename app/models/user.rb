@@ -55,7 +55,7 @@ class User < ActiveRecord::Base
         level = 1 if level < 1
       else
         level += 1
-        level = 10 if level > 1
+        level = 10 if level > 10
       end
     end
     level 
