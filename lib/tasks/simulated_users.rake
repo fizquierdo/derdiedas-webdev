@@ -79,8 +79,8 @@ namespace :sim do
       {username: "StupidPlayer", guess_rate: 0.33},
       {username: "LearningPlayer", guess_rate: 0.0},
     ]
-    number_of_plays = 1001
-    showfreq = 200
+    number_of_plays = 251
+    showfreq = 50
     players.each do |player|
       # destroy and create player
       username = player[:username]
@@ -95,7 +95,7 @@ namespace :sim do
       # play a few words
       history = History.new
       number_of_plays.times do |attempt|
-        if username = "LearningPlayer"
+        if username == "LearningPlayer"
           guess_rate = new_guess_rate(number_of_plays, attempt)
         end
         show_player_history(user, history, attempt, guess_rate) if attempt % showfreq == 0
