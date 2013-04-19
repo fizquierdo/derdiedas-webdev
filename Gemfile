@@ -13,8 +13,9 @@ group :development do
   gem 'annotate'
   gem 'sqlite3'
   gem 'rspec-rails'
-  gem 'ruport'
 end
+
+gem 'ruport'
 
 
 # Gems used only for assets and not required
