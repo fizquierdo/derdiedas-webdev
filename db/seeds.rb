@@ -15,7 +15,6 @@ def get_words(filename)
     file = IO.read(wordfile).force_encoding("ISO-8859-1").encode("utf-8", replace: nil)
     lines = file.split("\n")
     lines.each do |l|
-      #@file = IO.read(file).force_encoding("ISO-8859-1").encode("utf-8", replace: nil)
       begin
         id, noun, article, weight, definitions, count = l.chomp.split("\t")
         words << {article: articles_short[article], noun: noun, weight: weight.to_i}
@@ -33,17 +32,14 @@ def get_words(filename)
     words
 end
 
-    # Create a default admin
-=begin
-    admin = User.create!(name: "Fernando",
-                 email: "fer.izquierdo@gmail.com",
-                 password: "password",
-                 password_confirmation: "password")
-    admin.toggle!(:admin)
-=end
+# Create a default admin
+admin = User.create!(name: "Fernando",
+             email: "fer.izquierdo@gmail.com",
+             password: "password",
+             password_confirmation: "password")
+admin.toggle!(:admin)
 
-    # Load the available words to the DB
-    get_words("de.freq.1000").each do |w|
-      #Word.create!({article: w[:article], noun: w[:noun], weight: w[:weight]})
-    end
-
+# Load the available words to the DB
+get_words("de.freq.1000").each do |w|
+  Word.create!({article: w[:article], noun: w[:noun], weight: w[:weight]})
+end

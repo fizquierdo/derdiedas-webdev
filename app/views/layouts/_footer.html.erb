@@ -1,11 +1,14 @@
 <footer class="footer">
-<small>
-  Der die das, a test application
-</small>
-<nav>
-<ul>
+<ul class="nav pull-right">
+  <!--
   <li><%= link_to "About",   '#' %></li>
   <li><%= link_to "Contact", '#' %></li>
+  -->
+  <% unless signed_in? %>
+  <li>
+          <%= link_to "Sign up!", signup_path, class: "btn btn-small btn-success" %>
+          ...and track your progress!
+  </li>
+  <% end %>
 </ul>
-</nav>
 </footer>
