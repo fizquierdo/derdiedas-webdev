@@ -9,7 +9,7 @@ UserVoice.push(['showTab', 'classic_widget', {
     link_color: '#007dbf',
     default_mode: 'support',
     forum_id: 212689,
-    tab_label: 'Feedback & Support',
+    tab_label: 'Feedback',
     tab_color: '#cc6d00',
     tab_position: 'middle-right',
     tab_inverted: false
