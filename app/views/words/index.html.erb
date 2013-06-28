@@ -8,6 +8,7 @@
     <th>Level</th>
     <th>Prob</th>
     <% end %>
+    <th>Definitions</th>
   </tr>
 <% @words.each do |word| %>
   <tr>
@@ -18,6 +19,7 @@
     <td><%= current_user.word_level(word) %></td>
     <td><%= current_user.word_prob(word) %></td>
     <% end %>
+    <td><%= word.definitions %></td>
   </tr>
 <% end %>
 </table>

@@ -11,8 +11,9 @@
 #
 
 class Word < ActiveRecord::Base
-  attr_accessible :article, :noun, :weight
+  attr_accessible :article, :noun, :weight, :definitions
   validates :noun, :presence => true
+  #validates :definitions, :presence => true
   validates :weight, :numericality => { :only_integer => true }
   validates :article, :inclusion => { :in => %w(der die das),
     :message => "%{value} is not a valid german article" }

@@ -17,7 +17,10 @@ def get_words(filename)
     lines.each do |l|
       begin
         id, noun, article, weight, definitions, count = l.chomp.split("\t")
-        words << {article: articles_short[article], noun: noun, weight: weight.to_i}
+        words << {article: articles_short[article], 
+                  noun: noun, 
+                  weight: weight.to_i,
+                  definitions: definitions.to_s}
         puts noun
       rescue Exception => e
         puts "Skipping line #{l}"
@@ -41,5 +44,9 @@ admin.toggle!(:admin)
 
 # Load the available words to the DB
 get_words("de.freq.1000").each do |w|
-  Word.create!({article: w[:article], noun: w[:noun], weight: w[:weight]})
+  Word.create!({article: w[:article], 
+                noun: w[:noun], 
+                weight: w[:weight], 
+                definitions: w[:definitions], 
+  })
 end

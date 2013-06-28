@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130203141715) do
+ActiveRecord::Schema.define(:version => 20130628091926) do
 
   create_table "guesses", :force => true do |t|
     t.string   "answer"
@@ -40,8 +40,9 @@ ActiveRecord::Schema.define(:version => 20130203141715) do
     t.string   "noun"
     t.string   "article"
     t.integer  "weight"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+    t.text     "definitions"
   end
 
 end

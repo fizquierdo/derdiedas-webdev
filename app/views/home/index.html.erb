@@ -38,7 +38,7 @@
 
   <div class="row">
     <small>
-      <div class="span10 offset1">
+      <div class="span8 offset1">
         <br>
         <p> 
         Frequency of <em><%=@word.noun%></em> :  <strong> <%=@word.weight%> </strong> 
@@ -50,6 +50,9 @@
             (10 worst level, 1 you got it!)
            </p>
          <% end %>
+        <p> 
+        <em><%=@word.noun%></em> :  <%=@word.definitions%> 
+        </p>
       </div>
     </small>
   </div>
