@@ -12,9 +12,9 @@ class HomeController < ApplicationController
   def check
     @word = Word.find(params[:id])
     if given_answer == @word.article
-      flash_data = { :success=> "Sehr gut!,  #{@word.to_s} war richtig"}
+      flash_data = { :success=> "Sehr gut! #{@word.to_s} war richtig"}
     else
-      flash_data = { :error=> "mmmmmm Eigentlich war #{@word.to_error_s} richtig"}
+      flash_data = { :error=> "mmmm Eigentlich war #{@word.to_error_s} richtig"}
     end
     save_guess if signed_in?
     redirect_to root_url, :flash => flash_data
