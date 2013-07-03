@@ -1,5 +1,13 @@
 
 
+<% unless signed_in? %>
+  <p> 
+  <%= link_to "Sign up!", signup_path, class: "btn btn-medium " %>
+  <strong>
+    to track your progress!
+  </strong>
+  </p>
+<% end %>
 
 <div class="hero-unit span10">  
 
@@ -44,12 +52,12 @@
         Frequency of <em><%=@word.noun%></em> :  <strong> <%=@word.weight%> </strong> 
         (10 most frequent, 1 uncommon)
         </p>
-         <% if signed_in? %>
-           <p> 
-           Your level for <em><%=@word.noun%></em>: <strong> <%=current_user.word_level(@word)%> </strong>   
-            (10 worst level, 1 you got it!)
-           </p>
-         <% end %>
+        <% if signed_in? %>
+          <p> 
+          Your level for <em><%=@word.noun%></em>: <strong> <%=current_user.word_level(@word)%> </strong>   
+          (10 worst level, 1 you got it!)
+          </p>
+        <% end %>
         <p> 
         <em><%=@word.noun%></em> :  <%=@word.definitions%> 
         </p>
@@ -58,7 +66,7 @@
   </div>
 
   <div class="row">
-   <big>
+    <big>
       <div class="span8 offset1">
         <% flash.each do |key, value| %>
           <div class="alert fade in alert-<%= key %>">
@@ -66,8 +74,8 @@
             <a href="#" data-dismiss="alert" class="close">&times</a>
           </div>
         <% end %>
-    </div>
-   </big>
+      </div>
+    </big>
   </div>
 
 </div>

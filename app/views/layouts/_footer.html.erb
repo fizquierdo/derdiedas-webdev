@@ -6,8 +6,12 @@
   -->
   <% unless signed_in? %>
   <li>
-          <%= link_to "Sign up!", signup_path, class: "btn btn-small btn-success" %>
+          <%= link_to "Sign up!", signup_path, class: "btn btn-large btn-primary" %>
+          <p> 
+          <strong>
           ...and track your progress!
+          </strong>
+          </p>
   </li>
   <% end %>
 </ul>
